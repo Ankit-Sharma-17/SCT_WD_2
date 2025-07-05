@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Professional Stopwatch - Advanced Time Management</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Merriweather:wght@400;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <!-- Font Awesome -->
+  <script src="https://kit.fontawesome.com/4b8c3e6e8b.js" crossorigin="anonymous"></script>
+  <!-- Stopwatch Specific Styles -->
+  <link rel="stylesheet" href="stopwatch.css">
+</head>
+<body class="flex flex-col items-center justify-center min-h-screen">
+  <div class="w-full max-w-4xl mx-auto mt-4 px-4">
+    <!-- Professional Header -->
+    <div class="mb-8 text-center">
+      <div class="inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl mb-6 shadow-lg">
+        <i class="fas fa-stopwatch text-white text-xl"></i>
+        <span class="text-lg font-bold tracking-widest text-white" style="letter-spacing:2px;">TASK 02</span>
+      </div><br>
+      <h1 class="text-4xl md:text-5xl font-bold text-white mb-3 header-accent">Advanced Stopwatch</h1>
+      <p class="text-slate-300 text-lg max-w-2xl mx-auto">Precision timing with professional features, multiple modes, and comprehensive statistics</p>
+    </div>
+
+    <!-- Main Timer Display -->
+    <div class="glass-card p-8 flex flex-col items-center mx-auto w-full animate-fadeInUp animated-border">
+      <!-- Theme and Settings Controls -->
+      <div class="w-full flex flex-col md:flex-row items-center justify-between mb-6 gap-4">
+        <div class="flex items-center gap-3">
+          <button id="themeToggle" class="theme-btn flex items-center px-4 py-2 rounded-full shadow-lg font-semibold text-sm transition-all" title="Toggle theme">
+            <i class="fas fa-palette mr-2"></i>
+            <span>Theme</span>
+          </button>
+          <button id="settingsBtn" class="settings-btn flex items-center px-4 py-2 rounded-full shadow-lg font-semibold text-sm transition-all" title="Settings">
+            <i class="fas fa-cog mr-2"></i>
+            <span>Settings</span>
+          </button>
+        </div>
+        <div class="flex items-center gap-3">
+          <button id="darkModeToggle" class="dark-toggle-btn flex items-center px-5 py-2 rounded-full shadow-lg font-semibold text-base transition focus:outline-none" title="Toggle dark mode" aria-label="Toggle dark mode">
+            <span class="icon mr-2"><i class="fas fa-moon"></i></span>
+            <span class="toggle-text">Dark Mode</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Timer Modes -->
+      <div class="w-full mb-6">
+        <div class="flex flex-wrap justify-center gap-3">
+          <button class="mode-btn active" data-mode="stopwatch">
+            <i class="fas fa-stopwatch mr-2"></i>Stopwatch
+          </button>
+          <button class="mode-btn" data-mode="countdown">
+            <i class="fas fa-hourglass-half mr-2"></i>Countdown
+          </button>
+          <button class="mode-btn" data-mode="pomodoro">
+            <i class="fas fa-clock mr-2"></i>Pomodoro
+          </button>
+          <button class="mode-btn" data-mode="interval">
+            <i class="fas fa-repeat mr-2"></i>Interval
+          </button>
+        </div>
+      </div>
+
+      <!-- Main Display -->
+      <div class="timer-display-container mb-6">
+        <div class="timer-display" id="display">00:00:00.00</div>
+        <div class="timer-subtitle" id="timerSubtitle">Stopwatch Mode</div>
+      </div>
+
+      <!-- Control Buttons -->
+      <div class="flex flex-wrap justify-center gap-4 mb-6">
+        <button class="control-btn primary" id="startBtn">
+          <i class="fas fa-play mr-2"></i>Start
+        </button>
+        <button class="control-btn secondary hidden" id="pauseBtn">
+          <i class="fas fa-pause mr-2"></i>Pause
+        </button>
+        <button class="control-btn warning" id="resetBtn">
+          <i class="fas fa-undo mr-2"></i>Reset
+        </button>
+        <button class="control-btn info" id="lapBtn">
+          <i class="fas fa-flag mr-2"></i>Lap
+        </button>
+        <button class="control-btn success" id="saveBtn">
+          <i class="fas fa-save mr-2"></i>Save
+        </button>
+      </div>
+
+      <!-- Statistics Panel -->
+      <div class="stats-panel w-full mb-6">
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon"><i class="fas fa-tachometer-alt"></i></div>
+            <div class="stat-content">
+              <div class="stat-value" id="avgLap">00:00.00</div>
+              <div class="stat-label">Avg Lap</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon"><i class="fas fa-bolt"></i></div>
+            <div class="stat-content">
+              <div class="stat-value" id="fastestLap">00:00.00</div>
+              <div class="stat-label">Fastest</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon"><i class="fas fa-list-ol"></i></div>
+            <div class="stat-content">
+              <div class="stat-value" id="totalLaps">0</div>
+              <div class="stat-label">Total Laps</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon"><i class="fas fa-clock"></i></div>
+            <div class="stat-content">
+              <div class="stat-value" id="totalTime">00:00:00</div>
+              <div class="stat-label">Total Time</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Lap History -->
+      <div class="lap-section w-full">
+        <div class="lap-header">
+          <h3 class="lap-title">Lap History</h3>
+          <button class="clear-laps-btn" id="clearLapsBtn">
+            <i class="fas fa-trash mr-1"></i>Clear
+          </button>
+        </div>
+        <div class="lap-list" id="laps"></div>
+      </div>
+
+      <!-- Navigation -->
+      <div class="flex justify-between items-center mt-8 w-full max-w-md mx-auto animated-nav">
+        <a href="index.html" class="nav-btn prev">
+          <i class="fas fa-arrow-left mr-2"></i>Portfolio
+        </a>
+        <a href="tictactoe.html" class="nav-btn next">
+          Tic-Tac-Toe<i class="fas fa-arrow-right ml-2"></i>
+        </a>
+      </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settingsModal" class="modal hidden">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Settings</h3>
+          <button class="modal-close" id="closeSettings">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="setting-group">
+            <label>Display Format</label>
+            <select id="displayFormat">
+              <option value="standard">Standard (HH:MM:SS.ms)</option>
+              <option value="compact">Compact (MM:SS.ms)</option>
+              <option value="decimal">Decimal (seconds)</option>
+            </select>
+          </div>
+          <div class="setting-group">
+            <label>Sound Alerts</label>
+            <div class="toggle-switch">
+              <input type="checkbox" id="soundAlerts" checked>
+              <span class="slider"></span>
+            </div>
+          </div>
+          <div class="setting-group">
+            <label>Auto-save Laps</label>
+            <div class="toggle-switch">
+              <input type="checkbox" id="autoSave" checked>
+              <span class="slider"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="stopwatch.js"></script>
+</body>
+</html> 
